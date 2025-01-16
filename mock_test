@@ -25,3 +25,12 @@ Use mock_exam; write a query and attach a screenshot showing Names of director, 
 
 Use mock_exam; write a query and attach a screenshot showing Names of director whose department has the most number of employees together with the department name and the number of employees.
 Use mock_exam; write a query and attach a screenshot showing that for each department with more than 3 employees, select name, number of the director and the number of employees in the department whose income is greater than 300.
+select Dir.number, Dir.name, D.name, count(*) from employee E1, position p, employee Dir, department D 
+where E1.position = p.code and 
+	E1.department =  D.code and 
+    D.director = Dir.number and 
+    P.income > 300 and 
+    E1.department in (select E.department from employee E, department D where E.department = D.code
+							group by E.department 
+                            having count(*) >2)
+                            group by D.code
