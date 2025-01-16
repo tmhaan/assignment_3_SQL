@@ -1,0 +1,27 @@
+--Q1:
+select distinct E2.number, E2.name, count(*) as number_of_employees from employee E1, employee E2, department D
+where E1.supervisor = E2.number and E1.department = D.code and D.location <> 'Hanoi'
+group by E1.supervisor 
+
+--Q2
+select distinct E2.number, E2.name, count(*) as number_of_employees from employee E1, employee E2
+where E1.supervisor = E2.number
+group by E1.supervisor
+
+--Q3
+select E.name, P.income from employee E, position P, department D
+where E.position = P.code and E.department = D.code and D.location = 'Hanoi'
+      and P.income >= ALL(select P1.income from position P1) 
+
+--Q4
+select distinct E2.number, E2.name, count(*) as number_of_employees from employee E1, employee E2
+where E1.supervisor = E2.number
+group by E1.supervisor
+having number_of_employees >= all(select count(*) from employee E3, employee E4 
+                                  where E3.supervisor = E4.number 
+                                  group by E3.supervisor)
+
+Use mock_exam; write a query and attach a screenshot showing Names of director, the department they manage and the total number of employees in that department.
+
+Use mock_exam; write a query and attach a screenshot showing Names of director whose department has the most number of employees together with the department name and the number of employees.
+Use mock_exam; write a query and attach a screenshot showing that for each department with more than 3 employees, select name, number of the director and the number of employees in the department whose income is greater than 300.
